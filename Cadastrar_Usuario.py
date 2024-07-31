@@ -29,7 +29,7 @@ def CriandoContas():
         try:
 
             DadosCadastrais = Requisitando_Dados()
-            print(DadosCadastrais[0], DadosCadastrais[1], DadosCadastrais[7])
+            print(f"CountName: {DadosCadastrais[0]}\nPassword: {DadosCadastrais[1]}\nState: {DadosCadastrais[7]}")
 
             # Pegando Siglas do estado
             Estado = DadosCadastrais[7]

@@ -11,7 +11,7 @@ def ConnetcDatabase(datacriacao, email, namecount, password):
         "password": "david123",
         "host": "localhost",
         "database": "contas_tunel",
-        "raise_on_warnings":True
+        "raise_on_warnings": True
     }
 
     #Variantes para salvar os dados no banco de dados
@@ -29,5 +29,6 @@ def ConnetcDatabase(datacriacao, email, namecount, password):
             ConnectDatabase.commit()
             print("Dados Salvos com sucesso")
 
-    except Exception  as e:
+    except Exception as e:
         print(f"Não conectado {e}")
+

@@ -20,5 +20,5 @@ def Pegando_Estados(estado):
         if estados == Estado:
             Sigla_Estado = siglas
 
-            print(Estado)
             return siglas
+

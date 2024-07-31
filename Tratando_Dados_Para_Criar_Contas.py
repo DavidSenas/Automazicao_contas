@@ -1,9 +1,9 @@
 def extrairDados(Response):
 
-    #Response Pega Os dados coletados no site
+    # Response Pega Os dados coletados no site
     dadosResponse = Response
 
-    #Percorendo Dicionário e pegando os dados necessários para criação da conta
+    # Percorendo Dicionário e pegando os dados necessários para criação da conta
     password = dadosResponse["results"][0]["login"]["md5"]
     email = dadosResponse["results"][0]["email"]
     firstname = dadosResponse["results"][0]["name"]["first"]
@@ -18,7 +18,8 @@ def extrairDados(Response):
     cep = dadosResponse["results"][0]["location"]["postcode"]
     phone = dadosResponse["results"][0]["phone"].replace("(", "").replace(")", "")
 
-    #Criando uma lista apenas com os dados necessarios
+    # Criando uma lista apenas com os dados necessarios
     dadosParaCadastro = (namecount, password, email, firstname, lastname, endRua, city, state, cep, phone)
 
     return dadosParaCadastro
+
