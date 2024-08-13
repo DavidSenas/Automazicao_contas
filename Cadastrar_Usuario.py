@@ -24,11 +24,17 @@ def Requisitando_Dados():
 
 def CriandoContas():
     # DadosCadastrais = pegandodados
+    global wait
+    contador = 0
     while True:
 
+        tot_contas = contador
         try:
 
+            print()
+            print("==="*100)
             DadosCadastrais = Requisitando_Dados()
+            print(f"Total de contas criadas = {tot_contas}.")
             print(f"CountName: {DadosCadastrais[0]}\nPassword: {DadosCadastrais[1]}\nState: {DadosCadastrais[7]}")
 
             # Pegando Siglas do estado
@@ -140,12 +146,6 @@ def CriandoContas():
             city = driver.find_element(By.ID, 'city')
             city.send_keys(DadosCadastrais[6])
 
-            postal_code = driver.find_element(By.ID, 'postal_code')
-            postal_code.send_keys(DadosCadastrais[8])
-
-            phone = city = driver.find_element(By.ID, 'phone')
-            phone.send_keys(DadosCadastrais[9])
-
             # Verificando se o elemento state está carregado e preenchedo
             try:
                 wait = WebDriverWait(driver, 30)
@@ -155,11 +155,11 @@ def CriandoContas():
 
                 # Execute JavaScript para habilitar todas as opções do <select>
                 driver.execute_script("""
-                    var options = arguments[0].options;
-                    for (var i = 0; i < options.length; i++) {
-                        options[i].disabled = false;
-                    }
-                """, state_select)
+                               var options = arguments[0].options;
+                               for (var i = 0; i < options.length; i++) {
+                                   options[i].disabled = false;
+                               }
+                           """, state_select)
 
                 # Listar todas as opções disponíveis no <select>
                 select = Select(state_select)
@@ -178,15 +178,19 @@ def CriandoContas():
             except Exception as e:
                 print(f"Ocorreu um erro: {e}")
 
-            # Timeout Criado para aguardar Preencer e-mail
-            time.sleep(10)
+            postal_code = driver.find_element(By.ID, 'postal_code')
+            postal_code.send_keys(DadosCadastrais[8])
+
+            phone = city = driver.find_element(By.ID, 'phone')
+            phone.send_keys(DadosCadastrais[9])
+
+            captcha = driver.find_element(By.ID, "captcha_code")
+            str(input("Se o Captcha estiver preenchido, aperte qualqer tecla: "))
 
             # Pegando Email colocado no site para criação de conta
             Pegaemail = driver.find_element(By.ID, "email")
             email = Pegaemail.get_attribute("value")
 
-            captcha = driver.find_element(By.ID, "captcha_code")
-            str(input("Se o Captcha estiver preenchido, aperte qualqer tecla: "))
             CheckBox = driver.find_element(By.ID, "tos")
             CheckBox.click()
 
@@ -200,15 +204,19 @@ def CriandoContas():
             confirma_user = driver.find_element(By.ID, "f_user")
             confirma_user.send_keys(DadosCadastrais[0])
 
-            confir_password = driver.find_element(By.ID, "f_pass")
-            confir_password.send_keys(DadosCadastrais[1])
-            enter = driver.find_element(By.CLASS_NAME, "loginButton").click()
+            confirma_password = driver.find_element(By.ID, "f_pass")
+            confirma_password.send_keys(DadosCadastrais[1])
 
-            time.sleep(3)
+            enter = driver.find_element(By.CLASS_NAME, "loginButton")
+            enter.click()
+
             # Chamando Banco de dados e salvando dados
             ConnetcDatabase(data, email, DadosCadastrais[0], DadosCadastrais[1])
-            time.sleep(2)
+            time.sleep(0)
             driver.quit()
+            contador = tot_contas + 1
+            print()
 
         except Exception as e:
             print(f"Ocorreu um o erro {e}, Tentando novamente! ")
+
